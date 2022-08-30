@@ -1,0 +1,23 @@
+.badge-container{
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+.profile-image img {
+    height: 100px;
+    margin: 10px;
+}
+.profile-image .age {
+    width: 100%;
+    text-align: center;
+}
+
+.badge-wrapper{
+    min-width: 300px;
+    display: flex;
+    border-width: 1px;
+    border-color: black;
+    border-style: solid;
+    margin: 10px;
+    border-radius: 10px;
+}
