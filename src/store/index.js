@@ -1,36 +1,29 @@
-
-import { combineReducers,compose, createStore, applyMiddleware } from 'redux';
+import { applyMiddleware, compose, createStore } from 'redux'
+// import thunkMiddleware from 'redux-thunk'
+import { createContext } from 'react';
 import createSagaMiddleware from 'redux-saga';
-import ReduxThunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-import {usersReducer} from './reducers';
-import usersSaga from './saga';
-
-const sagaMiddleware = createSagaMiddleware();
-
-const middlewares = [ReduxThunk, sagaMiddleware];
+// import monitorReducersEnhancer from './enhancers/monitorReducers'    
+import loggerMiddleware from './users/middleware/logger'
+import rootReducer from './reducer'
+import * as actions from './actions';
+import rootSaga from './saga';
 
 const logger = (storeData) => (next) => (action) => {
   const result = next(action);
-  console.log('state after dispatch', storeData())
-
   return result;
 };
-
-const rootReducer = combineReducers({
-  usersReducer,
-});
+const sagaMiddleware = createSagaMiddleware();
 const middlewareEnhancer = applyMiddleware(sagaMiddleware, logger);
 const enhancers = [middlewareEnhancer];
 const composedEnhancers = composeWithDevTools(...enhancers);
 
-const createAppStore = (): any => {
+export const myStore = createStore(rootReducer, composedEnhancers);
+sagaMiddleware.run(rootSaga);
 
-    const Store = createStore(rootReducer, compose(applyMiddleware(...middlewares)));
-    // use the same saga middleware that you have enhanced your store with
-    sagaMiddleware.run(usersSaga);
-    return Store;
-    }
 
-    export default createAppStore();
+export default {
+    myStore,
+    actions
+}

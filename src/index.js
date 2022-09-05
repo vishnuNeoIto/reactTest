@@ -11,6 +11,7 @@ import App from './App';
 
 import reportWebVitals from './reportWebVitals';
 
+const {myStore, myContext} = Store;
 
 // export const store = createStore(rootReducer, compose(applyMiddleware(...middlewares)));
 // sagaMiddleware.run(usersSaga);
@@ -21,7 +22,7 @@ import reportWebVitals from './reportWebVitals';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Provider store={Store}>      
+      <Provider store={myStore}>      
           <App />
     </Provider>
   </React.StrictMode>
